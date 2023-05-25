@@ -6,15 +6,15 @@ import (
 	"gorm.io/gorm"
 )
 
-type usersRepository struct {
+type UsersRepository struct {
 	db *gorm.DB
 }
 
-func NewUserRepository(db *gorm.DB) *usersRepository {
-	return &usersRepository{db}
+func NewUserRepository(db *gorm.DB) *UsersRepository {
+	return &UsersRepository{db}
 }
 
-func (repository usersRepository) Create(user models.User) (models.User, error) {
+func (repository UsersRepository) Create(user models.User) (models.User, error) {
 	result := repository.db.Create(&user)
 	if result.Error != nil {
 		return models.User{}, result.Error

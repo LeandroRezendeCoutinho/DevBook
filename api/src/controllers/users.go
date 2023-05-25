@@ -4,6 +4,7 @@ import (
 	"api/src/database"
 	"api/src/models"
 	"api/src/repositories"
+	"api/src/services"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -26,7 +27,8 @@ func CreateUsers(c echo.Context) error {
 	}
 
 	userRepository := repositories.NewUserRepository(db)
-	createdUser, err := userRepository.Create(user)
+	userService := services.NewUserService(userRepository)
+	createdUser, err := userService.Create(user)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
