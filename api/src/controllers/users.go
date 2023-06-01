@@ -1,17 +1,15 @@
 package controllers
 
 import (
-	"api/src/database"
-	"api/src/models"
-	"api/src/repositories"
-	"api/src/services"
+	"api/src/entities"
+	"api/src/factories"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
 func CreateUsers(c echo.Context) error {
-	var user models.User
+	var user entities.User
 
 	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{
@@ -19,16 +17,14 @@ func CreateUsers(c echo.Context) error {
 		})
 	}
 
-	db, err := database.Connect()
+	userService, err := factories.NewUserService()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": err.Error(),
 		})
 	}
 
-	userRepository := repositories.NewUserRepository(db)
-	userService := services.NewUserService(userRepository)
-	createdUser, err := userService.Create(user)
+	createdUser, err := userService.Create(&user)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{

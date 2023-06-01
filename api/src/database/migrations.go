@@ -1,11 +1,11 @@
 package database
 
 import (
-	"api/src/models"
+	"api/src/entities"
 
 	"gorm.io/gorm"
 )
 
 func Migrate(database *gorm.DB) error {
-	return database.AutoMigrate(&models.User{})
+	return database.AutoMigrate(&entities.User{})
 }
