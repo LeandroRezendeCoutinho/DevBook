@@ -52,13 +52,13 @@ func (repository UserRepository) FindAll() (*[]entities.User, error) {
 	return &users, nil
 }
 
-func (repository UserRepository) FindByID(id uint64) (entities.User, error) {
+func (repository UserRepository) FindByID(id uint64) (*entities.User, error) {
 	var user entities.User
 
 	result := repository.db.First(&user, id)
 	if result.Error != nil {
-		return entities.User{}, result.Error
+		return &entities.User{}, result.Error
 	}
 
-	return user, nil
+	return &user, nil
 }
