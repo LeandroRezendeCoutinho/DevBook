@@ -17,7 +17,7 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 func (repository UserRepository) Create(user *entities.User) (*entities.User, error) {
 	result := repository.db.Create(&user)
 	if result.Error != nil {
-		return &entities.User{}, result.Error
+		return nil, result.Error
 	}
 
 	return user, nil
@@ -26,7 +26,7 @@ func (repository UserRepository) Create(user *entities.User) (*entities.User, er
 func (repository UserRepository) Update(user *entities.User) (*entities.User, error) {
 	result := repository.db.Save(&user)
 	if result.Error != nil {
-		return &entities.User{}, result.Error
+		return nil, result.Error
 	}
 
 	return user, nil
@@ -57,7 +57,7 @@ func (repository UserRepository) FindByID(id uint64) (*entities.User, error) {
 
 	result := repository.db.First(&user, id)
 	if result.Error != nil {
-		return &entities.User{}, result.Error
+		return nil, result.Error
 	}
 
 	return &user, nil
