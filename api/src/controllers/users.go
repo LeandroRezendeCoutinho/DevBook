@@ -72,7 +72,7 @@ func FindUserByID(c echo.Context) error {
 		})
 	}
 
-	user, err := userService.FindByID(id)
+	user, err := userService.FindByID(uint(id))
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": err.Error(),
@@ -99,7 +99,7 @@ func UpdateUser(c echo.Context) error {
 	}
 
 	userService, err := factories.NewUserService()
-	userFound, findErr := userService.FindByID(id)
+	userFound, findErr := userService.FindByID(uint(id))
 
 	if findErr != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
@@ -150,7 +150,7 @@ func DeleteUser(c echo.Context) error {
 		})
 	}
 
-	userFound, findErr := userService.FindByID(id)
+	userFound, findErr := userService.FindByID(uint(id))
 	if findErr != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": findErr.Error(),

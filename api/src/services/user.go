@@ -14,21 +14,21 @@ func NewUserService(repository *repositories.UserRepository) *UserService {
 }
 
 func (service UserService) Create(user *entities.User) (*entities.User, error) {
-	return service.repository.Create(user)
+	return service.repository.GenericRepository.Create(*user)
 }
 
 func (service UserService) Update(user *entities.User) (*entities.User, error) {
-	return service.repository.Update(user)
+	return service.repository.GenericRepository.Update(*user)
 }
 
 func (service UserService) Delete(user *entities.User) error {
-	return service.repository.Delete(user)
+	return service.repository.GenericRepository.Delete(*user)
 }
 
 func (service UserService) FindAll() (*[]entities.User, error) {
-	return service.repository.FindAll()
+	return service.repository.GenericRepository.FindAll()
 }
 
-func (service UserService) FindByID(id uint64) (*entities.User, error) {
-	return service.repository.FindByID(id)
+func (service UserService) FindByID(id uint) (*entities.User, error) {
+	return service.repository.GenericRepository.FindByID(id)
 }
