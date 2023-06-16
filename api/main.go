@@ -6,14 +6,19 @@ import (
 	"api/src/router"
 	"api/src/router/routes"
 	"fmt"
+
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
 	config.Load()
 	initializeDatabase()
 
-	router := router.Generate()
+	router := router.New()
 	routes.DrawUsers(router)
+
+	router.Use(middleware.Logger())
+
 	router.Start(fmt.Sprintf(":%d", config.Port))
 }
 

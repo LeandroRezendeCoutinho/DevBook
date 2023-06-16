@@ -12,4 +12,6 @@ func DrawUsers(r *echo.Echo) {
 	r.GET("/users/:id", controllers.FindUserByID)
 	r.PUT("/users/:id", controllers.UpdateUser)
 	r.DELETE("/users/:id", controllers.DeleteUser)
+
+	r.GET("/users/name", controllers.FindAllUsersByName)
 }

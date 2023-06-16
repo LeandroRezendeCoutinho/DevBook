@@ -176,3 +176,24 @@ func DeleteUser(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, id)
 }
+
+func FindAllUsersByName(c echo.Context) error {
+	userService, err := factories.NewUserService()
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	name := c.QueryParam("name")
+	users, err := userService.FindAllBy("name", name)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, users)
+}

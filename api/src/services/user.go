@@ -32,3 +32,11 @@ func (service UserService) FindAll() (*[]entities.User, error) {
 func (service UserService) FindByID(id uint) (*entities.User, error) {
 	return service.repository.GenericRepository.FindByID(id)
 }
+
+func (service UserService) FindOneBy(field string, email string) (*entities.User, error) {
+	return service.repository.GenericRepository.FindOneBy(field, email)
+}
+
+func (service UserService) FindAllBy(field string, name string) (*[]entities.User, error) {
+	return service.repository.GenericRepository.FindAllBy(field, name)
+}

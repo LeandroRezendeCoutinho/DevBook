@@ -72,3 +72,27 @@ func (repository GenericRepository[T]) FindByID(id uint) (*T, error) {
 
 	return &entity, nil
 }
+
+func (repository GenericRepository[T]) FindOneBy(field string, value any) (*T, error) {
+	var entity T
+
+	result := repository.db.Where(field+" = ?", value).First(&entity)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &entity, nil
+}
+
+func (repository GenericRepository[T]) FindAllBy(field string, value any) (*[]T, error) {
+	var entities []T
+
+	result := repository.db.Where(field+" = ?", value).Find(&entities)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &entities, nil
+}
