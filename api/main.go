@@ -16,6 +16,7 @@ func main() {
 
 	router := router.New()
 	routes.DrawUsers(router)
+	routes.DrawLogin(router)
 
 	router.Use(middleware.Logger())
 

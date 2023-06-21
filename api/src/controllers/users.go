@@ -3,6 +3,7 @@ package controllers
 import (
 	"api/src/entities"
 	"api/src/factories"
+	"api/src/utils"
 	"net/http"
 	"strconv"
 
@@ -27,6 +28,9 @@ func CreateUsers(c echo.Context) error {
 			"error": err.Error(),
 		})
 	}
+
+	password, _ := utils.HashPassword(user.Password)
+	user.Password = string(password)
 
 	userService, err := factories.NewUserService()
 	if err != nil {
