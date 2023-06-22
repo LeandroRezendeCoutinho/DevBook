@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"api/src/auth"
 	"api/src/entities"
 	"api/src/factories"
 	"api/src/utils"
@@ -33,5 +34,11 @@ func Login(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, "Login successfully")
+	token, err := auth.CreateToken(user.ID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
+	}
+	return c.JSON(http.StatusOK, token)
 }

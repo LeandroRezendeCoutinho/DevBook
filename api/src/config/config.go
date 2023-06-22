@@ -13,6 +13,7 @@ import (
 var (
 	Port         = 0
 	DBConnection = ""
+	SecretKey    []byte
 )
 
 func Load() {
@@ -31,6 +32,8 @@ func Load() {
 	if DBConnection == "" {
 		DBConnection = "sqlite.db"
 	}
+
+	SecretKey = []byte(os.Getenv("SECRET_KEY"))
 }
 
 func getRootPath() string {
