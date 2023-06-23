@@ -3,6 +3,7 @@ package main
 import (
 	"api/src/config"
 	"api/src/database"
+	"api/src/middlewares"
 	"api/src/router"
 	"api/src/router/routes"
 	"fmt"
@@ -19,6 +20,7 @@ func main() {
 	routes.DrawLogin(router)
 
 	router.Use(middleware.Logger())
+	router.Use(middlewares.Authenticate)
 
 	router.Start(fmt.Sprintf(":%d", config.Port))
 }
