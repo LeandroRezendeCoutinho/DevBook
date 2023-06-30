@@ -1,9 +1,11 @@
 package controllers
 
 import (
+	"api/src/auth"
 	"api/src/entities"
 	"api/src/factories"
 	"api/src/utils"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -105,6 +107,21 @@ func UpdateUser(c echo.Context) error {
 			"error": err.Error(),
 		})
 	}
+
+	tokenUserId, err := auth.ExtractUserId(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	if uint64(tokenUserId) != id {
+		return c.JSON(http.StatusForbidden, map[string]string{
+			"error": "You can't update a user that is not yours",
+		})
+	}
+
+	fmt.Println(tokenUserId, id)
 
 	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{

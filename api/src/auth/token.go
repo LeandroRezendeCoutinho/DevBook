@@ -37,6 +37,24 @@ func ValidateToken(c echo.Context) error {
 	return nil
 }
 
+func ExtractUserId(c echo.Context) (uint, error) {
+	encodedToken, err := extractToken(c)
+	if err != nil {
+		return 0, err
+	}
+
+	token, err := parseToken(encodedToken)
+	if err != nil {
+		return 0, err
+	}
+
+	if permissions, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		return uint(permissions["user_id"].(float64)), nil
+	}
+
+	return 0, echo.NewHTTPError(401, "Token invalid")
+}
+
 func extractToken(c echo.Context) (string, error) {
 	token := c.Request().Header.Get("Authorization")
 	if token == "" {
