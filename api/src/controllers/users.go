@@ -174,6 +174,19 @@ func DeleteUser(c echo.Context) error {
 		})
 	}
 
+	tokenUserId, err := auth.ExtractUserId(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	if uint64(tokenUserId) != id {
+		return c.JSON(http.StatusForbidden, map[string]string{
+			"error": "You can't delete a user that is not yours",
+		})
+	}
+
 	userService, err := factories.NewUserService()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
