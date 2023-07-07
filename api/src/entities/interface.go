@@ -1,5 +1,5 @@
 package entities
 
 type Entity interface {
-	User | any
+	User | Follower
 }

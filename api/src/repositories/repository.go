@@ -6,12 +6,12 @@ import (
 	"gorm.io/gorm"
 )
 
-type Repository interface {
-	Create(model entities.Entity) (entities.Entity, error)
-	Update(model entities.Entity) (entities.Entity, error)
-	Delete(model entities.Entity) error
-	FindAll() ([]entities.Entity, error)
-	FindByID(id uint64) (entities.Entity, error)
+type Repository[T entities.Entity] interface {
+	Create(model T) (T, error)
+	Update(model T) (T, error)
+	Delete(model T) error
+	FindAll() ([]T, error)
+	FindByID(id uint64) (T, error)
 }
 
 type GenericRepository[T entities.Entity] struct {

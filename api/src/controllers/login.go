@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"api/src/auth"
-	"api/src/entities"
+	"api/src/dtos"
 	"api/src/factories"
 	"api/src/utils"
 	"net/http"
@@ -11,7 +11,7 @@ import (
 )
 
 func Login(c echo.Context) error {
-	var userLogin entities.UserLogin
+	var userLogin dtos.UserLogin
 
 	if err := c.Bind(&userLogin); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{
