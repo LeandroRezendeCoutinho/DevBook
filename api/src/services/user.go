@@ -40,3 +40,11 @@ func (service UserService) FindOneBy(field string, email string) (*entities.User
 func (service UserService) FindAllBy(field string, name string) (*[]entities.User, error) {
 	return service.repository.GenericRepository.FindAllBy(field, name)
 }
+
+func (service UserService) FindFollowers(id uint) (*[]entities.User, error) {
+	return service.repository.FindFollowers(id)
+}
+
+func (service UserService) CreateFollower(follower *entities.Follower) (*entities.Follower, error) {
+	return service.repository.CreateFollower(follower)
+}

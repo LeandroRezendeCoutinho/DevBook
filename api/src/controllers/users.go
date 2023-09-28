@@ -231,3 +231,75 @@ func FindAllUsersByName(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, users)
 }
+
+func FindFollowers(c echo.Context) error {
+	userService, err := factories.NewUserService()
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	followers, err := userService.FindFollowers(uint(id))
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, followers)
+}
+
+func CreateFollower(c echo.Context) error {
+	userService, err := factories.NewUserService()
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	followerId, err := strconv.ParseUint(c.Param("id"), 10, 64)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	tokenUserId, err := auth.ExtractUserId(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	if uint64(tokenUserId) == followerId {
+		return c.JSON(http.StatusForbidden, map[string]string{
+			"error": "You can't follow yourself",
+		})
+	}
+
+	var follower entities.Follower
+	follower.UserID = uint(tokenUserId)
+	follower.FollowerID = uint(followerId)
+	_, err = userService.CreateFollower(&follower)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	return c.NoContent(http.StatusCreated)
+}
