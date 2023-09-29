@@ -17,7 +17,15 @@
     <h1>Home</h1>
     <div>
         <h4>Welcome {{.name}}</h4>
+        <button id="button">Button</button>
     </div>
 </body>
+
+<script>
+    var button = document.getElementById("button");
+    button.onclick = function () {
+        alert("Hello {{.name}}");
+    }
+</script>
 
 </html>
